@@ -1,0 +1,28 @@
+-------------------------------
+JOB LIST & OUTSTANDING REVISION
+------------------------------
+GENERAL
+- CANCEL STATUS harus dicek dimana syarat harus terpenuhi :
+"Tidak ada proses berkaitan yang sudah dibuat atau semua proses yang berkaitan yang sudah terlanjur dibuat harus di-CANCEL terlebih dahulu. "
+
+LOG
+- Buatin log di database sendiri. Ada mekanisme backup log. di pisah jadi tabel sendiri dan dipisah tiap taun 
+ 
+
+GAK JELAS
+- Jual Write Off
+------------------HIGH PRIORITY-------------------------
+	Edit :
+tb_sales_order_gen
+tb_sales_order_gen_det
+tb_sales_order (id_sales_order_gen)
+view_sales_order_gen
+view_sales_order_gen_sum
+view_sales_order_prod_list
+view_sales_order_reff
+get_size_sales_order_reff
+
+
+
+
+
