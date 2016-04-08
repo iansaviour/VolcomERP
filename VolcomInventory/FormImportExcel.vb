@@ -438,7 +438,8 @@ Public Class FormImportExcel
                                 .Color = If(y1 Is Nothing, "", y1("color")),
                                 .Status = If(y1 Is Nothing, "Not found", "OK")
                             }
-                '.Note = table1.Field(Of String)("note"),
+
+                'Note = table1.Field(Of String)("note"),
                 GCData.DataSource = Nothing
                 GCData.DataSource = query.ToList()
                 GCData.RefreshDataSource()
@@ -456,7 +457,7 @@ Public Class FormImportExcel
                 GVData.Columns("Style").VisibleIndex = 1
                 GVData.Columns("Size").VisibleIndex = 2
                 GVData.Columns("Qty").VisibleIndex = 3
-                ' GVData.Columns("Note").VisibleIndex = 4
+                'GVData.Columns("Note").VisibleIndex = 4
                 GVData.Columns("Status").VisibleIndex = 5
                 GVData.Columns("Qty").DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric
                 GVData.Columns("Qty").DisplayFormat.FormatString = "{0:n0}"
