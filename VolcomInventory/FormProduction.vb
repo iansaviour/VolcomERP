@@ -115,26 +115,34 @@
         End If
 
         Dim query = "SELECT "
-        query += "IFNULL(SUM(recd.prod_order_rec_det_qty),0) AS qty_rec,IFNULL(SUM(pod.prod_order_qty),0) AS qty_order,comp.comp_name,a.id_prod_order,d.id_sample, a.prod_order_number, d.design_display_name, d.design_code, h.term_production, g.po_type,d.design_cop, "
+        query += "IFNULL(SUM(rec.prod_order_rec_det_qty),0) AS qty_rec, "
+        query += "IFNULL(SUM(pod.prod_order_qty),0) As qty_order, "
+        query += "comp.comp_name,a.id_prod_order,d.id_sample, a.prod_order_number, d.design_display_name, d.design_code, h.term_production, g.po_type,d.design_cop, "
         query += "DATE_FORMAT(a.prod_order_date,'%d %M %Y') AS prod_order_date,a.id_report_status,c.report_status, "
         query += "b.id_design,b.id_delivery, e.delivery, f.season, e.id_season "
         query += "FROM tb_prod_order a "
         query += "INNER JOIN tb_prod_order_det pod ON pod.id_prod_order=a.id_prod_order "
-        query += "INNER JOIN tb_prod_demand_design b ON a.id_prod_demand_design = b.id_prod_demand_design "
+        query += "INNER JOIN tb_prod_demand_design b On a.id_prod_demand_design = b.id_prod_demand_design "
         query += "INNER JOIN tb_lookup_report_status c ON a.id_report_status = c.id_report_status "
-        query += "INNER JOIN tb_m_design d ON b.id_design = d.id_design "
-        query += "INNER JOIN tb_season_delivery e ON b.id_delivery=e.id_delivery "
-        query += "INNER JOIN tb_season f ON f.id_season=e.id_season "
-        query += "INNER JOIN tb_lookup_po_type g ON g.id_po_type=a.id_po_type "
-        query += "INNER JOIN tb_lookup_term_production h ON h.id_term_production=a.id_term_production "
-        query += "LEFT JOIN tb_prod_order_wo wo ON wo.id_prod_order=a.id_prod_order AND wo.is_main_vendor='1' "
-        query += "LEFT JOIN tb_m_ovh_price ovh_p ON ovh_p.id_ovh_price=wo.id_ovh_price "
+        query += "INNER JOIN tb_m_design d On b.id_design = d.id_design "
+        query += "INNER JOIN tb_season_delivery e On b.id_delivery=e.id_delivery "
+        query += "INNER JOIN tb_season f On f.id_season=e.id_season "
+        query += "INNER JOIN tb_lookup_po_type g On g.id_po_type=a.id_po_type "
+        query += "INNER JOIN tb_lookup_term_production h On h.id_term_production=a.id_term_production "
+        query += "LEFT JOIN tb_prod_order_wo wo On wo.id_prod_order=a.id_prod_order And wo.is_main_vendor='1' "
+        query += "LEFT JOIN tb_m_ovh_price ovh_p On ovh_p.id_ovh_price=wo.id_ovh_price "
         query += "LEFT JOIN tb_m_comp_contact cc ON cc.id_comp_contact=ovh_p.id_comp_contact "
-        query += "LEFT JOIN tb_m_comp comp ON comp.id_comp=cc.id_comp "
-        query += "LEFT JOIN tb_prod_order_rec rec ON rec.id_prod_order=a.id_prod_order "
-        query += "LEFT JOIN tb_prod_order_rec_det recd ON recd.id_prod_order_rec=rec.id_prod_order_rec "
+        query += "LEFT JOIN tb_m_comp comp On comp.id_comp=cc.id_comp "
+        query += "LEFT JOIN  "
+        query += "( "
+        query += "SELECT recd.id_prod_order_det,SUM(recd.prod_order_rec_det_qty) AS prod_order_rec_det_qty "
+        query += "FROM "
+        query += "tb_prod_order_rec rec "
+        query += "LEFT JOIN tb_prod_order_rec_det recd On recd.id_prod_order_rec=rec.id_prod_order_rec "
+        query += "GROUP BY recd.id_prod_order_det "
+        query += ") rec On rec.id_prod_order_det=pod.id_prod_order_det "
         query += "WHERE 1=1 " & query_where
-        query += " GROUP BY a.id_prod_order"
+        query += "GROUP BY a.id_prod_order"
         Dim data As DataTable = execute_query(query, -1, True, "", "", "", "")
 
         'data.Columns.Add("images", GetType(Image))
@@ -144,7 +152,7 @@
         '    If System.IO.File.Exists(product_image_path & data.Rows(i)("id_design").ToString & ".jpg".ToLower) Then
         '        fileName = product_image_path & data.Rows(i)("id_design").ToString & ".jpg".ToLower
         '    Else
-        '        fileName = product_image_path & "default" & ".jpg".ToLower
+        '        fileName = product_image_path & "Default" & ".jpg".ToLower
         '    End If
 
         '    img = Image.FromFile(fileName)
