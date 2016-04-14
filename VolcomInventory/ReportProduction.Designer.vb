@@ -137,7 +137,6 @@ Partial Public Class ReportProduction
         Me.GVListProduct.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Never
         Me.GVListProduct.Name = "GVListProduct"
         Me.GVListProduct.OptionsPrint.PrintFooter = False
-        Me.GVListProduct.OptionsView.ShowFooter = True
         Me.GVListProduct.OptionsView.ShowGroupPanel = False
         '
         'ColIdPurcDet
