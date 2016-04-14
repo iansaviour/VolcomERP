@@ -1626,10 +1626,14 @@ Public Class FormMain
                     FormBOMSingle.id_product = FormBOM.GVProduct.GetFocusedRowCellDisplayText("id_product").ToString
                     FormBOMSingle.ShowDialog()
                 ElseIf FormBOM.XTCBOMSelection.SelectedTabPageIndex = 2 Then 'per design
-                    FormBOMSingle.id_pop_up = "1"
-                    FormBOMSingle.id_bom_approve = FormBOM.GVBOMPerDesign.GetFocusedRowCellValue("id_bom_approve").ToString
-                    FormBOMSingle.id_design = FormBOM.GVPerDesign.GetFocusedRowCellDisplayText("id_design").ToString
-                    FormBOMSingle.ShowDialog()
+                    If FormBOM.GVBOMPerDesign.RowCount > 0 Then
+                        FormBOMSingle.id_pop_up = "1"
+                        FormBOMSingle.id_bom_approve = FormBOM.GVBOMPerDesign.GetFocusedRowCellValue("id_bom_approve").ToString
+                        FormBOMSingle.id_design = FormBOM.GVPerDesign.GetFocusedRowCellDisplayText("id_design").ToString
+                        FormBOMSingle.ShowDialog()
+                    Else
+                        stopCustom("No data found to edit.")
+                    End If
                 Else ' per PD
                     'Try
                     If FormBOM.GVDesign.FocusedRowHandle < 0 Then

@@ -15,7 +15,6 @@
         viewSeason()
         viewVendor()
 
-        'view_production_order()
         viewProdDemand()
         checkFormAccess(Name)
     End Sub
